@@ -53,9 +53,7 @@ Define constantes y valores de referencia.
 
 ### `template.py`
 
-Contiene la plantilla HTML completa usada para generar el informe técnico en vista previa.
-- `PLANTILLA_HTML` define estructura, estilos y marcadores de reemplazo.
-- La plantilla se usa en `GeneradorInforme.generar_html()`.
+Archivo legado que contiene una plantilla HTML antigua. La generación actual de informes PDF ya se hace directamente con ReportLab en `export.py`, por lo que este archivo ya no se utiliza.
 
 ### `core.py`
 
@@ -113,11 +111,10 @@ Carga y analiza el CSV de ciclos.
 
 ### `export.py`
 
-Genera informes técnicos y muestra la vista previa.
+Genera informes técnicos y muestra la vista previa directamente con ReportLab.
 
 #### `GeneradorInforme`
 
-- `generar_html(observaciones)`: reemplaza marcadores en `PLANTILLA_HTML` usando resultados de análisis.
 - `generar_pdf(ruta, observaciones)`: crea un PDF con `ReportLab` usando:
   - `HeaderInforme`
   - `SeccionAmbiental`
@@ -337,19 +334,11 @@ styles.append(('BOX', (0, 0), (num_cols - 1, num_rows - 1), 1.0, colors.black))
 styles.append(('INNERGRID', (0, 0), (num_cols - 1, num_rows - 1), 0.5, colors.grey))
 ```
 
-### Cambiar la plantilla HTML
+### Cambiar la estructura del informe PDF
 
-Archivo: `template.py`
+La generación de informes se hace directamente con ReportLab en `export.py` y las secciones PDF definidas en `pdf_sections.py`.
 
-Si necesitas modificar el informe en formato HTML, edita `PLANTILLA_HTML` directamente. Los marcadores `{{CLAVE}}` serán reemplazados automáticamente por `GeneradorInforme.generar_html()`.
-
-**Marcadores disponibles**:
-- `{{OPERADOR}}`, `{{FECHA}}`, `{{EQUIPO_ID}}`, `{{MODELO}}`
-- `{{N_CICLOS}}`, `{{GAS}}`, `{{FLCM}}`
-- `{{TEMP}}`, `{{HUM}}`, `{{PRBA}}`
-- `{{REF_BPM}}`, `{{REF_VT}}`, `{{REF_TI}}`, `{{REF_PEEP}}`, `{{REF_PIP}}`, `{{REF_IE}}`, `{{REF_MV}}`, `{{REF_FIO2}}`
-- `{{FILAS_TABLA}}`: tabla HTML de resultados
-- `{{DIAGNOSTICO_GLOBAL}}`, `{{OBSERVACIONES}}`
+Si quieres modificar el contenido, edita las secciones de `HeaderInforme`, `SeccionAmbiental` y `TablaResultados` en `pdf_sections.py`, o cambia estilos globales en `pdf_styles.py`.
 
 ### Cambiar encabezado e integrar logo
 
@@ -399,5 +388,5 @@ Esta versión de `VT650 Monitor Mod` combina captura en tiempo real, grabación 
 - comunicación serial y muestreo (`core.py`),
 - interfaz y eventos de usuario (`ui.py`),
 - análisis de resultados (`core.py`),
-- generación de informes (`export.py`, `pdf_helpers.py`, `pdf_sections.py`, `pdf_styles.py`, `template.py`).
+- generación de informes (`export.py`, `pdf_helpers.py`, `pdf_sections.py`, `pdf_styles.py`).
 
